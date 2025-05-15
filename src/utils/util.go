@@ -26,8 +26,3 @@ func InputInt64() (int64, error) {
 	fmt.Printf("You entered: %d\n", intVal64)
 	return intVal64, nil
 }
-
-func NumberToText(number int64) string {
-	result := fmt.Sprintf("%d", number)
-	return result
-}

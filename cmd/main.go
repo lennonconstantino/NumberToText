@@ -1,12 +1,12 @@
 package main
 
 import (
-	"NumberToText/src/utils"
+	parseNumberToTest "NumberToText/src/parseNumberToText"
 	"fmt"
 )
 
 func main() {
 	fmt.Println("Starting...")
 
-	fmt.Println(utils.NumberToText(1234567890))
+	fmt.Println(parseNumberToTest.NumberToText(1234567890))
 }
