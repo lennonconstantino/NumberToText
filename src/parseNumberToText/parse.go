@@ -113,14 +113,32 @@ func parseValue(number int64) (int, string) {
 	return decimalsCounted, result
 }
 
-func NumberToText(number int64) string {
-	buffer := ""
-	if number < 1000 {
-		buffer = parseHundreds(int(number))
+func parseMoneyValue(number int64) (string, error) {
+	buffer := []string{}
+	decimalsCounted, bufferValue := parseValue(number)
+	buffer = append(buffer, bufferValue)
+
+	if number == 1 {
+		buffer = append(buffer, "real")
+	} else {
+		if decimalsCounted >= 2 {
+			buffer = append(buffer, "de")
+		}
+
+		buffer = append(buffer, "reais")
 	}
 
-	if number > 1000 {
-		_, buffer = parseValue(number)
+	joined := strings.Join(buffer, " ")
+	result := strings.TrimSpace(joined)
+
+	return result, nil
+}
+
+func NumberToText(number int64) string {
+	buffer := ""
+
+	if number > 99 {
+		buffer, _ = parseMoneyValue(number)
 	}
 
 	result := fmt.Sprintf("%s", buffer)
