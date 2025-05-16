@@ -2,6 +2,7 @@ package parseNumberToTest
 
 import (
 	"NumberToText/src/utils"
+	"errors"
 	"strings"
 )
 
@@ -151,6 +152,10 @@ func parseCents(number int) (string, error) {
 }
 
 func NumberToText(number int64) (string, error) {
+	if number > 99999999999999999 {
+		return "", errors.New("the number is greater than the processing capacity")
+	}
+
 	buffer := []string{}
 	value := number / 100
 	cents := int(number % 100)
