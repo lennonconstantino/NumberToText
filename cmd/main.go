@@ -10,4 +10,5 @@ func main() {
 
 	fmt.Println(parseNumberToTest.NumberToText(123))
 	fmt.Println(parseNumberToTest.NumberToText(123123))
+	fmt.Println(parseNumberToTest.NumberToText(123123123))
 }
