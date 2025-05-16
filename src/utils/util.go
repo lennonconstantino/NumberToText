@@ -26,3 +26,11 @@ func InputInt64() (int64, error) {
 	fmt.Printf("You entered: %d\n", intVal64)
 	return intVal64, nil
 }
+
+func ReverseSlice[T any](s []T) []T {
+	for i, j := 0, len(s)-1; i < j; i, j = i+1, j-1 {
+		s[i], s[j] = s[j], s[i]
+	}
+
+	return s
+}

@@ -8,5 +8,5 @@ import (
 func main() {
 	fmt.Println("Starting...")
 
-	fmt.Println(parseNumberToTest.NumberToText(1234567890))
+	fmt.Println(parseNumberToTest.NumberToText(123))
 }
