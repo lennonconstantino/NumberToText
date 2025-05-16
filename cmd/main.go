@@ -11,9 +11,9 @@ func main() {
 	fmt.Println(parseNumberToTest.NumberToText(1))
 	fmt.Println(parseNumberToTest.NumberToText(12))
 	fmt.Println(parseNumberToTest.NumberToText(123))
-	fmt.Println(parseNumberToTest.NumberToText(123123))
-	fmt.Println(parseNumberToTest.NumberToText(123123123))
-	fmt.Println(parseNumberToTest.NumberToText(123123123123))
-	fmt.Println(parseNumberToTest.NumberToText(123123123123123))
+	// fmt.Println(parseNumberToTest.NumberToText(123123))
+	// fmt.Println(parseNumberToTest.NumberToText(123123123))
+	// fmt.Println(parseNumberToTest.NumberToText(123123123123))
+	// fmt.Println(parseNumberToTest.NumberToText(123123123123123))
 
 }

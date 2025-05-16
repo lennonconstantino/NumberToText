@@ -134,11 +134,32 @@ func parseMoneyValue(number int64) (string, error) {
 	return result, nil
 }
 
+func parseCents(number int) (string, error) {
+	buffer := []string{}
+	_, bufferValue := parseValue(int64(number))
+	buffer = append(buffer, bufferValue)
+
+	if number == 1 {
+		buffer = append(buffer, "centavo")
+	} else {
+		buffer = append(buffer, "centavos")
+	}
+
+	joined := strings.Join(buffer, " ")
+	result := strings.TrimSpace(joined)
+
+	return result, nil
+}
+
 func NumberToText(number int64) string {
 	buffer := ""
 
 	if number > 99 {
 		buffer, _ = parseMoneyValue(number)
+	}
+
+	if number < 100 {
+		buffer, _ = parseCents(int(number))
 	}
 
 	result := fmt.Sprintf("%s", buffer)
