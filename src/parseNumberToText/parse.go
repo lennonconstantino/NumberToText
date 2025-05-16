@@ -1,6 +1,7 @@
 package parseNumberToTest
 
 import (
+	"NumberToText/src/utils"
 	"fmt"
 	"strings"
 )
@@ -50,10 +51,76 @@ func parseHundreds(number int) string {
 	return result
 }
 
+func dismemberHundreds(number int64) []int64 {
+	var numbers []int64
+	var next int64
+
+	next = number
+
+	for next > 0 {
+		numbers = append(numbers, next%1000)
+		next = next / 1000
+	}
+
+	return utils.ReverseSlice(numbers)
+}
+
+func parseValue(number int64) (int, string) {
+	thousands := []string{"", "mil", "milhão", "bilhão", "trilhão"}
+	buffer := []string{}
+	decimalsCounted := 0
+	partsOfTheNumbers := dismemberHundreds(number)
+
+	for i := range partsOfTheNumbers {
+		part := partsOfTheNumbers[i]
+		if part == 0 {
+			decimalsCounted += 1
+			continue
+		}
+
+		index := len(partsOfTheNumbers) - 1 - i
+
+		if !(len(partsOfTheNumbers) == 2 && part == 1) {
+			bufferHundred := parseHundreds(int(part))
+			buffer = append(buffer, bufferHundred)
+		}
+
+		if thousands[index] != "" {
+			if part == 1 && (index) > 1 {
+				buffer = append(buffer, thousands[index])
+			} else {
+				if thousands[index] != "mil" {
+					var sufaux = ""
+					if part > 1 {
+						sufaux = "ões"
+					}
+					// should be -2, but Go works with bytes with special characters taking into account 1 extra byte
+					buffer = append(buffer, thousands[index][:len(thousands[index])-3]+sufaux)
+				} else {
+					buffer = append(buffer, thousands[index])
+				}
+			}
+		}
+
+		if (partsOfTheNumbers[index] > 100) && (len(partsOfTheNumbers) > 1) && ((i + 1) < len(partsOfTheNumbers)) {
+			buffer[len(buffer)-1] += ","
+		}
+	}
+
+	joined := strings.Join(buffer, " ")
+	result := strings.TrimSpace(joined)
+
+	return decimalsCounted, result
+}
+
 func NumberToText(number int64) string {
 	buffer := ""
 	if number < 1000 {
 		buffer = parseHundreds(int(number))
+	}
+
+	if number > 1000 {
+		_, buffer = parseValue(number)
 	}
 
 	result := fmt.Sprintf("%s", buffer)
