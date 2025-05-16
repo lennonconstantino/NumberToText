@@ -2,7 +2,6 @@ package parseNumberToTest
 
 import (
 	"NumberToText/src/utils"
-	"fmt"
 	"strings"
 )
 
@@ -151,17 +150,27 @@ func parseCents(number int) (string, error) {
 	return result, nil
 }
 
-func NumberToText(number int64) string {
-	buffer := ""
+func NumberToText(number int64) (string, error) {
+	buffer := []string{}
+	value := number / 100
+	cents := int(number % 100)
 
-	if number > 99 {
-		buffer, _ = parseMoneyValue(number)
+	if value > 0 {
+		bufferMoneyValue, _ := parseMoneyValue(value)
+		buffer = append(buffer, bufferMoneyValue)
 	}
 
-	if number < 100 {
-		buffer, _ = parseCents(int(number))
+	if cents > 0 {
+		if value > 0 {
+			buffer = append(buffer, "e")
+		}
+
+		bufferCents, _ := parseCents(cents)
+		buffer = append(buffer, bufferCents)
 	}
 
-	result := fmt.Sprintf("%s", buffer)
-	return result
+	joined := strings.Join(buffer, " ")
+	result := strings.TrimSpace(joined)
+
+	return result, nil
 }
